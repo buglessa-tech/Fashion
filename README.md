@@ -1,1 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maison Theme — Merchant Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f0e0d;
+      --bg-2: #161412;
+      --bg-3: #1d1a17;
+      --bg-4: #242018;
+      --border: #2a2520;
+      --border-2: #362f26;
+      --gold: #c4a46b;
+      --gold-dim: #8b7355;
+      --gold-light: #e8d5a3;
+      --text: #f0ece4;
+      --text-2: #b5a89a;
+      --text-3: #7a6f63;
+      --green: #4ade80;
+      --blue: #60a5fa;
+      --red: #f87171;
+      --amber: #fbbf24;
+      --sidebar-w: 280px;
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      min-height: 100vh;
+    }
 
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--bg-2);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 99px; }
+
+    .sb-logo {
+      padding: 1.75rem 1.5rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sb-logo-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+    }
+    .sb-logo-sub {
+      font-size: 0.7rem;
+      color: var(--text-3);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+    .sb-version {
+      display: inline-block;
+      background: rgba(196,164,107,0.12);
+      color: var(--gold);
+      border: 1px solid rgba(196,164,107,0.25);
+      border-radius: 20px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 0.15rem 0.55rem;
+      margin-top: 0.5rem;
+    }
+
+    .sb-search {
+      padding: 1rem 1rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sb-search-wrap {
+      position: relative;
+    }
+    .sb-search-icon {
+      position: absolute;
+      left: 0.6rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-3);
+      pointer-events: none;
+    }
+    .sb-search input {
+      width: 100%;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.8rem;
+      padding: 0.5rem 0.75rem 0.5rem 2rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .sb-search input::placeholder { color: var(--text-3); }
+    .sb-search input:focus { border-color: var(--gold-dim); }
+
+    .sb-nav { padding: 0.75rem 0.75rem 1.5rem; flex: 1; }
+    .sb-section-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-3);
+      padding: 1rem 0.75rem 0.4rem;
+    }
+    .sb-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--radius-sm);
+      color: var(--text-2);
+      font-size: 0.825rem;
+      text-decoration: none;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+    .sb-link:hover { color: var(--text); background: rgba(255,255,255,0.04); text-decoration: none; }
+    .sb-link.active { color: var(--gold-light); background: rgba(196,164,107,0.1); font-weight: 500; }
+    .sb-link .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border-2); flex-shrink: 0; }
+    .sb-link.active .dot { background: var(--gold); }
+
+    /* ── MAIN ── */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      min-width: 0;
+      padding: 3.5rem 4rem 6rem;
+    }
+    .content { max-width: 900px; margin: 0 auto; }
+
+    /* ── TYPOGRAPHY ── */
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      line-height: 1.1;
+    }
+    h1 span { color: var(--gold); }
+    .hero-lead {
+      color: var(--text-2);
+      font-size: 1.05rem;
+      font-weight: 300;
+      max-width: 680px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-top: 4rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    h2 .h2-icon {
+      width: 32px; height: 32px;
+      background: rgba(196,164,107,0.1);
+      border: 1px solid rgba(196,164,107,0.2);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    h4 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-dim);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    p { color: var(--text-2); font-size: 0.925rem; margin-bottom: 1rem; }
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8em;
+      background: var(--bg-4);
+      border: 1px solid var(--border-2);
+      border-radius: 4px;
+      padding: 0.1em 0.45em;
+      color: var(--gold-light);
+    }
+    ul, ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+    li { color: var(--text-2); font-size: 0.925rem; margin-bottom: 0.4rem; }
+    li strong { color: var(--text); }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .card h3 { margin-top: 0; }
+
+    /* ── CALLOUTS ── */
+    .callout {
+      display: flex;
+      gap: 0.875rem;
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.25rem;
+      border: 1px solid;
+      font-size: 0.875rem;
+    }
+    .callout-icon { flex-shrink: 0; margin-top: 1px; }
+    .callout-body p { margin: 0; color: inherit; font-size: inherit; }
+    .callout-title { font-weight: 600; margin-bottom: 0.2rem; }
+    .callout.info { background: rgba(96,165,250,0.07); border-color: rgba(96,165,250,0.25); color: #bfdbfe; }
+    .callout.tip  { background: rgba(74,222,128,0.07); border-color: rgba(74,222,128,0.25); color: #bbf7d0; }
+    .callout.warn { background: rgba(251,191,36,0.07);  border-color: rgba(251,191,36,0.25);  color: #fde68a; }
+    .callout.crit { background: rgba(248,113,113,0.07); border-color: rgba(248,113,113,0.25); color: #fecaca; }
+
+    /* ── TABLES ── */
+    .table-wrap { overflow-x: auto; margin-bottom: 1.5rem; border-radius: var(--radius); border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    thead tr { background: var(--bg-3); }
+    thead th {
+      text-align: left;
+      padding: 0.7rem 1rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-3);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(even) { background: rgba(255,255,255,0.015); }
+    tbody tr:hover { background: rgba(196,164,107,0.04); }
+    td {
+      padding: 0.65rem 1rem;
+      color: var(--text-2);
+      vertical-align: top;
+    }
+    td:first-child { color: var(--text); font-weight: 500; white-space: nowrap; }
+    .td-type {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75em;
+      color: var(--blue);
+    }
+    .td-default {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75em;
+      color: var(--gold-dim);
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 20px;
+      line-height: 1.4;
+    }
+    .badge-checkbox { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+    .badge-range    { background: rgba(96,165,250,0.12); color: #60a5fa; border: 1px solid rgba(96,165,250,0.25); }
+    .badge-select   { background: rgba(251,191,36,0.12);  color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+    .badge-text     { background: rgba(192,132,252,0.12); color: #c084fc; border: 1px solid rgba(192,132,252,0.25); }
+    .badge-color    { background: rgba(248,113,113,0.12); color: #f87171; border: 1px solid rgba(248,113,113,0.25); }
+    .badge-image    { background: rgba(45,212,191,0.12);  color: #2dd4bf; border: 1px solid rgba(45,212,191,0.25); }
+    .badge-link     { background: rgba(196,164,107,0.12); color: #c4a46b; border: 1px solid rgba(196,164,107,0.25); }
+
+    /* ── STEPS ── */
+    .steps { list-style: none; padding: 0; counter-reset: step; }
+    .steps li {
+      counter-increment: step;
+      position: relative;
+      padding: 0 0 1.5rem 3rem;
+      margin: 0;
+    }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1.75rem;
+      height: 1.75rem;
+      background: rgba(196,164,107,0.12);
+      border: 1px solid rgba(196,164,107,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1.75rem;
+      text-align: center;
+    }
+    .steps li::after {
+      content: '';
+      position: absolute;
+      left: 0.875rem;
+      top: 1.75rem;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+    .steps li:last-child { padding-bottom: 0; }
+    .steps li:last-child::after { display: none; }
+    .steps li > strong { color: var(--text); display: block; margin-bottom: 0.3rem; }
+    .steps li p { margin: 0.2rem 0 0; }
+
+    /* ── SECTION DIVIDER ── */
+    .section-block { margin-bottom: 1rem; }
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold-dim);
+      background: rgba(196,164,107,0.08);
+      border: 1px solid rgba(196,164,107,0.18);
+      border-radius: 20px;
+      padding: 0.2rem 0.65rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ── WHERE APPEARS ── */
+    .where-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      background: rgba(96,165,250,0.1);
+      color: #93c5fd;
+      border: 1px solid rgba(96,165,250,0.2);
+      border-radius: 20px;
+      padding: 0.25rem 0.65rem;
+      margin: 0 0.3rem 0.5rem 0;
+      font-weight: 500;
+    }
+
+    /* ── FEATURE GRID ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .feature-item {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      gap: 0.875rem;
+      align-items: flex-start;
+    }
+    .feature-item-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(196,164,107,0.1);
+      border: 1px solid rgba(196,164,107,0.2);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .feature-item-title { font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 0.25rem; }
+    .feature-item-desc  { font-size: 0.8rem; color: var(--text-3); line-height: 1.5; }
+
+    /* ── IMAGE SIZE TABLE ── */
+    .img-size-card {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.875rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .img-size-name { font-weight: 600; font-size: 0.875rem; color: var(--text); min-width: 160px; }
+    .img-size-dim  { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--gold-dim); min-width: 180px; }
+    .img-size-fmt  { font-size: 0.78rem; color: var(--text-3); }
+
+    /* ── TABS (for section docs grouping) ── */
+    .tabs { display: flex; gap: 0.35rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+    .tab-btn {
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.35rem 0.9rem;
+      border-radius: 20px;
+      border: 1px solid var(--border-2);
+      background: transparent;
+      color: var(--text-3);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .tab-btn:hover { color: var(--text); border-color: var(--border-2); }
+    .tab-btn.active { background: rgba(196,164,107,0.12); border-color: rgba(196,164,107,0.3); color: var(--gold-light); }
+
+    /* ── ADMIN PATH BREADCRUMB ── */
+    .admin-path {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.3rem;
+      margin-top: 0.35rem;
+      font-size: 0.8rem;
+    }
+    .ap-crumb {
+      background: rgba(196,164,107,0.1);
+      border: 1px solid rgba(196,164,107,0.22);
+      border-radius: 5px;
+      padding: 0.15rem 0.55rem;
+      color: var(--text);
+      font-weight: 600;
+      white-space: nowrap;
+      font-size: 0.78rem;
+    }
+    .ap-crumb.ap-root {
+      background: rgba(255,255,255,0.04);
+      border-color: var(--border-2);
+      color: var(--text-2);
+      font-weight: 400;
+    }
+    .ap-sep {
+      color: var(--gold-dim);
+      font-size: 0.7rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    /* ── FOOTER ── */
+    .doc-footer {
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-3);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 2rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      h1 { font-size: 2rem; }
+      .main { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ======== SIDEBAR ======== -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-name">MAISON</div>
+    <div class="sb-logo-sub">Merchant Documentation</div>
+    <div class="sb-version">v1.0.0</div>
+  </div>
+  <div class="sb-search">
+    <div class="sb-search-wrap">
+      <span class="sb-search-icon">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+      <input type="text" id="sb-search-input" placeholder="Search docs…" oninput="searchDocs(this.value)">
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section-title">Getting Started</div>
+    <a class="sb-link active" href="#overview" onclick="setActive(this)"><span class="dot"></span>Overview</a>
+    <a class="sb-link" href="#installation" onclick="setActive(this)"><span class="dot"></span>Installation</a>
+
+    <div class="sb-section-title">Advanced Setup</div>
+    <a class="sb-link" href="#meta-complete-look" onclick="setActive(this)"><span class="dot"></span>Complete Your Look</a>
+    <a class="sb-link" href="#meta-offer-date" onclick="setActive(this)"><span class="dot"></span>Offer Countdown</a>
+    <a class="sb-link" href="#meta-color-map" onclick="setActive(this)"><span class="dot"></span>Color Image Mapping</a>
+    <a class="sb-link" href="#meta-filters" onclick="setActive(this)"><span class="dot"></span>Product Filters</a>
+    <a class="sb-link" href="#meta-collections" onclick="setActive(this)"><span class="dot"></span>Collection Control</a>
+    <a class="sb-link" href="#setup-about" onclick="setActive(this)"><span class="dot"></span>About Page Setup</a>
+    <a class="sb-link" href="#setup-contact" onclick="setActive(this)"><span class="dot"></span>Contact Page Setup</a>
+
+    <div class="sb-section-title">Page Layouts</div>
+    <a class="sb-link" href="#page-about" onclick="setActive(this)"><span class="dot"></span>About Page</a>
+    <a class="sb-link" href="#page-contact" onclick="setActive(this)"><span class="dot"></span>Contact Page</a>
+    <a class="sb-link" href="#page-header" onclick="setActive(this)"><span class="dot"></span>Header &amp; Navigation</a>
+    <a class="sb-link" href="#page-footer" onclick="setActive(this)"><span class="dot"></span>Footer</a>
+
+    <div class="sb-section-title">Homepage Sections</div>
+    <a class="sb-link" href="#sec-hero" onclick="setActive(this)"><span class="dot"></span>Hero Banner</a>
+    <a class="sb-link" href="#sec-featured-collection" onclick="setActive(this)"><span class="dot"></span>Featured Collection</a>
+    <a class="sb-link" href="#sec-category-accordion" onclick="setActive(this)"><span class="dot"></span>Category Accordion</a>
+    <a class="sb-link" href="#sec-category-grid" onclick="setActive(this)"><span class="dot"></span>Category Grid</a>
+    <a class="sb-link" href="#sec-hotspot" onclick="setActive(this)"><span class="dot"></span>Features Hotspot</a>
+    <a class="sb-link" href="#sec-spotlight" onclick="setActive(this)"><span class="dot"></span>Product Spotlight</a>
+    <a class="sb-link" href="#sec-countdown" onclick="setActive(this)"><span class="dot"></span>Promo Countdown</a>
+    <a class="sb-link" href="#sec-testimonials" onclick="setActive(this)"><span class="dot"></span>Testimonials</a>
+    <a class="sb-link" href="#sec-marquee" onclick="setActive(this)"><span class="dot"></span>Marquee / Ticker</a>
+
+    <div class="sb-section-title">Product &amp; Collection</div>
+    <a class="sb-link" href="#settings-product" onclick="setActive(this)"><span class="dot"></span>Product Detail Page</a>
+    <a class="sb-link" href="#settings-collection" onclick="setActive(this)"><span class="dot"></span>Collection Grid</a>
+    <a class="sb-link" href="#settings-quickview" onclick="setActive(this)"><span class="dot"></span>Quick View Modal</a>
+
+    <div class="sb-section-title">Reference</div>
+    <a class="sb-link" href="#ref-images" onclick="setActive(this)"><span class="dot"></span>Image Size Guide</a>
+    <a class="sb-link" href="#ref-seo" onclick="setActive(this)"><span class="dot"></span>SEO &amp; Performance</a>
+    <a class="sb-link" href="#ref-faq" onclick="setActive(this)"><span class="dot"></span>FAQ</a>
+  </nav>
+</aside>
+
+<!-- ======== MAIN CONTENT ======== -->
+<main class="main">
+  <div class="content">
+
+    <!-- ── OVERVIEW ── -->
+    <section id="overview" class="section-block">
+      <div class="section-badge">
+        <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Official Documentation
+      </div>
+      <h1>Maison <span>Theme</span></h1>
+      <p class="hero-lead">A premium Shopify theme built for high-end boutique brands, streetwear labels, and modern luxury e-commerce. All homepage sections are pre-loaded out of the box — ready to customize from minute one.</p>
+
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-item-icon">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div>
+            <div class="feature-item-title">Animated Header</div>
+            <div class="feature-item-desc">Pill-to-solid-bar scroll transition with sticky support and transparent initial state.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </div>
+          <div>
+            <div class="feature-item-title">Bento Grid Layouts</div>
+            <div class="feature-item-desc">Collage-style, asymmetric category grids for cinematic product showcases.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </div>
+          <div>
+            <div class="feature-item-title">AJAX Cart Drawer</div>
+            <div class="feature-item-desc">Instant side-cart updates with Complete Your Look cross-sells built in.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="feature-item-title">Countdown Timers</div>
+            <div class="feature-item-desc">Metafield-driven offer countdowns on the product page and spotlight cards.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div>
+            <div class="feature-item-title">Quick View Modal</div>
+            <div class="feature-item-desc">AJAX popup with hover-zoom gallery, variant selectors, and trust badges.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <div class="feature-item-title">Zero Lint Errors</div>
+            <div class="feature-item-desc">100% compliant with Shopify Theme Check — no external assets, no deprecated filters.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg></span>
+        <div class="callout-body">
+          <div class="callout-title">All sections pre-loaded</div>
+          <p>This theme ships with all homepage sections already in the default preset. You can reorder or remove them freely in the Shopify Theme Editor without any coding.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── INSTALLATION ── -->
+    <section id="installation" class="section-block">
+      <h2>
+        <span class="h2-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>
+        Installation
+      </h2>
+      <ol class="steps">
+        <li><strong>Download the theme zip</strong><p>Download <code>maison-theme.zip</code> to your computer. Do not unzip it.</p></li>
+        <li><strong>Go to Themes</strong><p>In your Shopify Admin → <strong>Online Store</strong> → <strong>Themes</strong>.</p></li>
+        <li><strong>Upload</strong><p>Click <strong>Add theme</strong> → <strong>Upload zip file</strong>. Select the zip and upload.</p></li>
+        <li><strong>Publish or Preview</strong><p>Click <strong>Publish</strong> to make it live, or <strong>Customize</strong> to configure sections before publishing.</p></li>
+      </ol>
+      <div class="callout warn">
+        <span class="callout-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+        <div class="callout-body">
+          <div class="callout-title">Upload the raw .zip file</div>
+          <p>Do NOT unzip the archive before uploading. Shopify requires the complete zipped package containing <code>assets/</code>, <code>sections/</code>, <code>snippets/</code>, <code>templates/</code>, <code>layout/</code>, and <code>config/</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ADVANCED SETUP ── -->
+    <h2>
+      <span class="h2-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M4.93 19.07l1.41-1.41M19.07 19.07l-1.41-1.41M21 12h-2M5 12H3M12 21v-2M12 5V3"/></svg></span>
+      Advanced Setup &amp; Metafields
+    </h2>
+
+    <!-- COMPLETE YOUR LOOK -->
+    <section id="meta-complete-look" class="section-block">
+      <div class="card">
+        <h3>Complete Your Look (Cross-Sell)</h3>
+        <p>Displays associated recommendation products below the buy box on the product page and as a carousel in the AJAX cart drawer.</p>
+
+        <div style="margin-bottom: 1rem;">
+          <span class="where-badge"><svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Product Detail Page</span>
+          <span class="where-badge"><svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Cart Drawer</span>
+        </div>
+
+        <h4>Step-by-step Setup</h4>
+        <ol class="steps">
+          <li><strong>Open Metafields &amp; Metaobjects</strong><p><span class="admin-path"><span class="ap-crumb ap-root">Shopify Admin</span><span class="ap-sep">›</span><span class="ap-crumb">Settings</span><span class="ap-sep">›</span><span class="ap-crumb">Metafields and metaobjects</span><span class="ap-sep">›</span><span class="ap-crumb">Products</span><span class="ap-sep">›</span><span class="ap-crumb">Add definition</span></span></p></li>
+          <li><strong>Configure the definition</strong>
+            <div class="table-wrap" style="margin-top:0.75rem;">
+              <table><tbody>
+                <tr><td>Name</td><td><code>Complete Look</code></td></tr>
+                <tr><td>Namespace &amp; key</td><td><code>custom.complete_look</code></td></tr>
+                <tr><td>Type</td><td><code>Product</code></td></tr>
+                <tr><td>Allow multiple</td><td>Enable <strong>List of values</strong> toggle</td></tr>
+              </tbody></table>
+            </div>
+            Click <strong>Save</strong>.
+          </li>
+          <li><strong>Assign to products</strong><p>Open any product → scroll to the <strong>Metafields</strong> panel at the bottom → find <strong>Complete Look</strong> → search and pick associated products. Click <strong>Save</strong>.</p></li>
+          <li><strong>Enable the block</strong><p>In the Theme Customizer, open any product page template → add a <strong>Complete Your Look</strong> block inside the Product section. The layout (horizontal scroll, grid, or toggle) is controlled by the section setting.</p></li>
+        </ol>
+
+        <h4>Product Section — CYL Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>CYL Heading text</td><td><span class="td-type">text</span></td><td><span class="td-default">"Complete Your Look"</span></td><td>Heading above the cross-sell strip</td></tr>
+              <tr><td>Card layout</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">scroll</span></td><td><code>scroll</code> = horizontal scroll, <code>grid</code> = 2-col grid, <code>toggle</code> = buyer checkbox</td></tr>
+              <tr><td>Card background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#f8f7f5</span></td><td>Background of each product card</td></tr>
+              <tr><td>Card corner radius</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">6px</span></td><td>Rounded corners on CYL cards</td></tr>
+              <tr><td>Product name color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>CYL card product title color</td></tr>
+              <tr><td>Price color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#888888</span></td><td>Price text color on CYL cards</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- OFFER COUNTDOWN -->
+    <section id="meta-offer-date" class="section-block">
+      <div class="card">
+        <h3>Offer End Date (Countdown Timer)</h3>
+        <p>When a product has a compare-at price (sale) AND this metafield is set, a live countdown clock appears automatically.</p>
+
+        <div style="margin-bottom: 1rem;">
+          <span class="where-badge">Product Detail Page — near buy box</span>
+          <span class="where-badge">Product Spotlight section card</span>
+        </div>
+
+        <h4>Step-by-step Setup</h4>
+        <ol class="steps">
+          <li><strong>Open Metafields &amp; Metaobjects</strong><p><span class="admin-path"><span class="ap-crumb ap-root">Shopify Admin</span><span class="ap-sep">›</span><span class="ap-crumb">Settings</span><span class="ap-sep">›</span><span class="ap-crumb">Metafields and metaobjects</span><span class="ap-sep">›</span><span class="ap-crumb">Products</span><span class="ap-sep">›</span><span class="ap-crumb">Add definition</span></span></p></li>
+          <li><strong>Configure the definition</strong>
+            <div class="table-wrap" style="margin-top:0.75rem;">
+              <table><tbody>
+                <tr><td>Name</td><td><code>Offer End Date</code></td></tr>
+                <tr><td>Namespace &amp; key</td><td><code>custom.offer_end_date</code></td></tr>
+                <tr><td>Type</td><td><code>Date and time</code></td></tr>
+              </tbody></table>
+            </div>
+            Click <strong>Save</strong>.
+          </li>
+          <li><strong>Assign to promotional products</strong><p>Open any sale product → scroll to <strong>Metafields</strong> → find <strong>Offer End Date</strong> → pick the target expiry date and time. Click <strong>Save</strong>.</p></li>
+        </ol>
+
+        <div class="callout info">
+          <span class="callout-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+          <div class="callout-body">
+            <p><strong>Auto-detection:</strong> The timer shows automatically when BOTH conditions are met — the product has a compare-at price set AND the <code>custom.offer_end_date</code> metafield is populated. No additional toggle is needed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT PAGE SETUP -->
+    <section id="setup-about" class="section-block">
+      <div class="card">
+        <h3>About Page Setup</h3>
+        <p>Maison includes a dedicated <code>page.about</code> template with animated stats, brand values cards, team grid, and testimonial slider.</p>
+        <ol class="steps">
+          <li><strong>Create the page</strong><p><span class="admin-path"><span class="ap-crumb ap-root">Shopify Admin</span><span class="ap-sep">›</span><span class="ap-crumb">Online Store</span><span class="ap-sep">›</span><span class="ap-crumb">Pages</span><span class="ap-sep">›</span><span class="ap-crumb">Add page</span></span> &mdash; title it <code>About Us</code>.</p></li>
+          <li><strong>Assign the template</strong><p>In the right panel under <strong>Theme template</strong>, select <code>page.about</code>. Click <strong>Save</strong>.</p></li>
+          <li><strong>Customize content</strong><p>Theme Customizer → switch to <strong>Pages → about</strong> at the top dropdown. Edit stats, team bios, values cards, and testimonials directly.</p></li>
+          <li><strong>Add to navigation</strong><p><span class="admin-path"><span class="ap-crumb ap-root">Online Store</span><span class="ap-sep">›</span><span class="ap-crumb">Navigation</span><span class="ap-sep">›</span><span class="ap-crumb">Main menu</span><span class="ap-sep">›</span><span class="ap-crumb">Add menu item</span></span> → select the About Us page → <strong class="ap-crumb">Save</strong>.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- CONTACT PAGE SETUP -->
+    <section id="setup-contact" class="section-block">
+      <div class="card">
+        <h3>Contact Page Setup</h3>
+        <p>Maison includes a dedicated <code>page.contact</code> template with a fullscreen animated hero, contact form, info panel, hours, and FAQ accordion.</p>
+        <ol class="steps">
+          <li><strong>Create the page</strong><p><span class="admin-path"><span class="ap-crumb ap-root">Shopify Admin</span><span class="ap-sep">›</span><span class="ap-crumb">Online Store</span><span class="ap-sep">›</span><span class="ap-crumb">Pages</span><span class="ap-sep">›</span><span class="ap-crumb">Add page</span></span> &mdash; title it <code>Contact Us</code>.</p></li>
+          <li><strong>Assign the template</strong><p>Under <strong>Theme template</strong>, select <code>page.contact</code>. Click <strong>Save</strong>.</p></li>
+          <li><strong>Customize content</strong><p>Theme Customizer → switch to <strong>Pages → contact</strong>. Edit contact details, business hours, FAQ items, and form text directly.</p></li>
+          <li><strong>Add to navigation</strong><p><span class="admin-path"><span class="ap-crumb ap-root">Online Store</span><span class="ap-sep">›</span><span class="ap-crumb">Navigation</span><span class="ap-sep">›</span><span class="ap-crumb">Main menu</span><span class="ap-sep">›</span><span class="ap-crumb">Add menu item</span></span> → select the Contact Us page → <strong class="ap-crumb">Save</strong>.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- COLOR IMAGE MAPPING -->
+    <section id="meta-color-map" class="section-block">
+      <div class="card">
+        <h3>Multi-Color Variant Image Mapping</h3>
+        <p>When a customer selects a color variant, the gallery automatically shows only images tagged with that color's name. This uses image alt text as the mapping key.</p>
+        <ol class="steps">
+          <li><strong>Open a product with color variants</strong><p><span class="admin-path"><span class="ap-crumb ap-root">Shopify Admin</span><span class="ap-sep">›</span><span class="ap-crumb">Products</span></span> → select any product with a Color option (e.g. Red, Blue, Black).</p></li>
+          <li><strong>Tag images by color</strong><p>In the <strong>Media</strong> section, click on a product image → click <strong>Edit alt text</strong> → type the exact color name matching your variant option value (e.g. <code>Blue</code>). Click <strong>Save alt text</strong>.</p></li>
+          <li><strong>Repeat for every image</strong><p>All Blue-coloured images should have alt text <code>Blue</code>. All Red images get <code>Red</code>, etc. Maison's JS uses this alt text to filter the gallery when a swatch is clicked.</p></li>
+        </ol>
+        <div class="callout warn">
+          <span class="callout-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></span>
+          <div class="callout-body"><p>The alt text must match the variant option value <strong>exactly</strong> (case-sensitive). If your variant is called "Navy Blue", the alt text must also be "Navy Blue".</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT FILTERS -->
+    <section id="meta-filters" class="section-block">
+      <div class="card">
+        <h3>Configure Product Filters (Search &amp; Discovery)</h3>
+        <p>Maison renders collection filters as sliding accordion toggles. Filters are configured through Shopify's free Search &amp; Discovery app.</p>
+        <ol class="steps">
+          <li><strong>Install the app</strong><p><span class="admin-path"><span class="ap-crumb ap-root">Shopify Admin</span><span class="ap-sep">›</span><span class="ap-crumb">Apps</span></span> → search for <strong>Shopify Search &amp; Discovery</strong> → Install for free.</p></li>
+          <li><strong>Add filters</strong><p>In the app → <strong>Filters</strong> → <strong>Add filter</strong>. Select from: <code>Product type</code>, <code>Size</code>, <code>Color</code>, <code>Vendor</code>, <code>Tag</code>, or custom metafields.</p></li>
+          <li><strong>Save</strong><p>Changes take effect immediately on all collection pages. Maison will automatically render them as accordion toggles in the left-hand filter drawer.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- COLLECTION CONTROL -->
+    <section id="meta-collections" class="section-block">
+      <div class="card">
+        <h3>Automated Collections &amp; List Page Control</h3>
+        <p>Create smart auto-collections (e.g. by Product Type) while keeping them out of the public Collections List page.</p>
+        <h4>Part 1 — Create an Automated Collection</h4>
+        <ol class="steps">
+          <li><strong>New collection</strong><p><span class="admin-path"><span class="ap-crumb ap-root">Shopify Admin</span><span class="ap-sep">›</span><span class="ap-crumb">Products</span><span class="ap-sep">›</span><span class="ap-crumb">Collections</span><span class="ap-sep">›</span><span class="ap-crumb">Create collection</span></span>.</p></li>
+          <li><strong>Set type</strong><p>Under <strong>Collection type</strong>, choose <strong>Automated</strong>.</p></li>
+          <li><strong>Add condition</strong><p>Example: <strong>Product type</strong> | <strong>is equal to</strong> | <code>Dress</code>. Click <strong>Save</strong>.</p></li>
+        </ol>
+        <h4>Part 2 — Exclude from the Collections List Page</h4>
+        <ol class="steps">
+          <li><strong>Open Customizer</strong><p><span class="admin-path"><span class="ap-crumb ap-root">Online Store</span><span class="ap-sep">›</span><span class="ap-crumb">Themes</span><span class="ap-sep">›</span><span class="ap-crumb">Customize</span></span>. At the top, switch to the <strong>Collections list</strong> template.</p></li>
+          <li><strong>Edit the section</strong><p>Click the <strong>Collection List</strong> section on the left → find the collections picker setting.</p></li>
+          <li><strong>Manually pick collections</strong><p>Select only your main parent collections (e.g. <code>Women</code>, <code>Men</code>) — the automated ones are automatically excluded. Click <strong>Save</strong>.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ── PAGE LAYOUTS ── -->
+    <h2>
+      <span class="h2-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></span>
+      Page &amp; Navigation Layouts
+    </h2>
+
+    <!-- ABOUT PAGE -->
+    <section id="page-about" class="section-block">
+      <div class="card">
+        <h3>About Page — Settings Reference</h3>
+        <p>The <code>page.about</code> template includes a fullscreen hero, animated stat counters, brand values cards, testimonial slider, team grid, and a CTA band — all with dedicated color and typography controls.</p>
+        <div class="callout tip">
+          <span class="callout-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+          <div class="callout-body"><p>To set up the About page for the first time, see <a href="#setup-about">About Page Setup</a> in the Advanced Setup section above.</p></div>
+        </div>
+
+        <h4>Hero Section</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Hero background image (desktop)</td><td><span class="badge badge-image">image</span></td><td>—</td><td>Full-bleed desktop hero background. Recommended: 1600×900px</td></tr>
+              <tr><td>Hero background image (mobile)</td><td><span class="badge badge-image">image</span></td><td>—</td><td>Portrait override for mobile. Recommended: 800×1100px</td></tr>
+              <tr><td>Hero overlay opacity</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">45%</span></td><td>Dark overlay intensity on the hero image (0–100)</td></tr>
+              <tr><td>Eyebrow text</td><td><span class="badge badge-text">text</span></td><td>—</td><td>Small label above the main headline</td></tr>
+              <tr><td>Eyebrow color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#b8906a</span></td><td>Color of the eyebrow label</td></tr>
+              <tr><td>Main headline</td><td><span class="badge badge-text">text</span></td><td>—</td><td>Large hero heading text</td></tr>
+              <tr><td>Hero text color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#f0ede8</span></td><td>Color for headline and description text</td></tr>
+              <tr><td>Title size (desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">72px</span></td><td>Hero title font size on desktop</td></tr>
+              <tr><td>Title size (mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">40px</span></td><td>Hero title font size on mobile</td></tr>
+              <tr><td>Description</td><td><span class="td-type">textarea</span></td><td>—</td><td>Short paragraph below the headline</td></tr>
+              <tr><td>Description size (desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">18px</span></td><td>Hero description font size on desktop</td></tr>
+              <tr><td>Description size (mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">15px</span></td><td>Hero description font size on mobile</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Stats Counter</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Stats background color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Background of the stats strip</td></tr>
+              <tr><td>Stat value color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#d4af7a</span></td><td>Color of the animated count numbers</td></tr>
+              <tr><td>Stat label color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#a09080</span></td><td>Color of the description below each number</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Brand Values Cards</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Values background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Background of the values section</td></tr>
+              <tr><td>Values eyebrow color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#c4a882</span></td><td>Small label above values heading</td></tr>
+              <tr><td>Values heading color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Main values section heading color</td></tr>
+              <tr><td>Card background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">rgba(255,255,255,0.05)</span></td><td>Background of each individual value card</td></tr>
+              <tr><td>Card background (hover)</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">rgba(255,255,255,0.12)</span></td><td>Card background on hover</td></tr>
+              <tr><td>Card text alignment</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Left</span></td><td>Left / Center / Right text alignment inside cards</td></tr>
+              <tr><td>Icon background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">rgba(139,115,85,0.2)</span></td><td>Background of the icon circle</td></tr>
+              <tr><td>Icon color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#c4a882</span></td><td>Color of the icon inside the circle</td></tr>
+              <tr><td>Card title color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Title text color on value cards</td></tr>
+              <tr><td>Card description color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#f0ede8</span></td><td>Description text color on value cards</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Testimonial Slider</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Testimonial background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Section background</td></tr>
+              <tr><td>Card gradient</td><td><span class="badge badge-text">text</span></td><td>—</td><td>CSS gradient for the testimonial card background</td></tr>
+              <tr><td>Quote color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Color of the review quote text</td></tr>
+              <tr><td>Author name color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Color of the reviewer name</td></tr>
+              <tr><td>Dot inactive color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">rgba(255,255,255,0.4)</span></td><td>Color of inactive slider pagination dots</td></tr>
+              <tr><td>Dot active color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Color of the active/selected dot (wider pill)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Team Grid</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Team section background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Background of the team grid section</td></tr>
+              <tr><td>Team eyebrow color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#8b7355</span></td><td>Small label above the team heading</td></tr>
+              <tr><td>Team heading color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Main team section heading color</td></tr>
+              <tr><td>Team member name color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Name text on each team card</td></tr>
+              <tr><td>Team member role color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#8b7355</span></td><td>Job title text on each team card</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>CTA Band</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>CTA background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>CTA section background</td></tr>
+              <tr><td>CTA eyebrow color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#c4a882</span></td><td>Small label above CTA heading</td></tr>
+              <tr><td>CTA heading color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Main CTA heading color</td></tr>
+              <tr><td>Button background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>CTA pill button background</td></tr>
+              <tr><td>Button text color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>CTA button label color</td></tr>
+              <tr><td>Button text on hover</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>CTA button text color when hovered</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT PAGE -->
+    <section id="page-contact" class="section-block">
+      <div class="card">
+        <h3>Contact Page — Settings Reference</h3>
+        <p>The <code>page.contact</code> template has a fullscreen animated hero, scrolling marquee, a two-column info/form layout, image band, business hours panel, and FAQ accordion — all individually configurable.</p>
+        <div class="callout tip">
+          <span class="callout-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+          <div class="callout-body"><p>To set up the Contact page for the first time, see <a href="#setup-contact">Contact Page Setup</a> in the Advanced Setup section above.</p></div>
+        </div>
+
+        <h4>Hero Section</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Hero h1 size (desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">144px</span></td><td>Main headline font size on desktop</td></tr>
+              <tr><td>Hero h1 size (mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">64px</span></td><td>Main headline font size on mobile</td></tr>
+              <tr><td>Hero h1 color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Headline text color</td></tr>
+              <tr><td>Gradient start color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#c4a882</span></td><td>Left color of the animated gradient text</td></tr>
+              <tr><td>Gradient end color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#faf9f7</span></td><td>Right color of the animated gradient text</td></tr>
+              <tr><td>Eyebrow color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#c4a882</span></td><td>Small label color above the headline</td></tr>
+              <tr><td>Subheading color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">rgba(255,255,255,0.45)</span></td><td>Subtitle paragraph text color</td></tr>
+              <tr><td>Hero min height (desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">100vh</span></td><td>Minimum height of the hero section on desktop</td></tr>
+              <tr><td>Hero min height (mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">100vh</span></td><td>Minimum height of the hero section on mobile</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Marquee Strip</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Marquee background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Background color of the scrolling strip</td></tr>
+              <tr><td>Marquee speed</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">18s</span></td><td>Animation duration — lower = faster</td></tr>
+              <tr><td>Marquee text color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">rgba(196,168,130,0.7)</span></td><td>Color of the scrolling text items</td></tr>
+              <tr><td>Marquee text size</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">11px</span></td><td>Font size of marquee items</td></tr>
+              <tr><td>Separator color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#8b7355</span></td><td>Color of the divider symbol between items</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Info Panel (Contact Details)</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Info title color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Main heading color in the info column</td></tr>
+              <tr><td>Info title accent</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#8b7355</span></td><td>Accent word color in the info heading</td></tr>
+              <tr><td>Info title size (desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">64px</span></td><td>Info heading font size on desktop</td></tr>
+              <tr><td>Info title size (mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">40px</span></td><td>Info heading font size on mobile</td></tr>
+              <tr><td>Info tag color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#8b7355</span></td><td>Color of the small tags (e.g. "Email", "Phone")</td></tr>
+              <tr><td>Info value color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Color of the actual contact value text</td></tr>
+              <tr><td>Icon background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#f5f0eb</span></td><td>Background of each info item icon circle</td></tr>
+              <tr><td>Icon color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#8b7355</span></td><td>SVG icon color in each info item</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Contact Form</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Form title color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Color of the form card heading</td></tr>
+              <tr><td>Form title size</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">30px</span></td><td>Font size of the form heading</td></tr>
+              <tr><td>Form subtitle color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#6b6b6b</span></td><td>Color of the subtitle below the form heading</td></tr>
+              <tr><td>Form label color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Color of input field labels</td></tr>
+              <tr><td>Submit button background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Submit button fill color</td></tr>
+              <tr><td>Submit button text</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Submit button label color</td></tr>
+              <tr><td>Submit button hover</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#8b7355</span></td><td>Submit button color on hover</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Business Hours &amp; FAQ</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Dark section background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Background of the hours and FAQ panels</td></tr>
+              <tr><td>Hours day color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">rgba(255,255,255,0.6)</span></td><td>Color of the day-of-week labels</td></tr>
+              <tr><td>Hours time color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#c4a882</span></td><td>Color of the time range text</td></tr>
+              <tr><td>FAQ question color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Color of each FAQ question text</td></tr>
+              <tr><td>FAQ answer color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">rgba(255,255,255,0.4)</span></td><td>Color of the expanded FAQ answer text</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- HEADER -->
+    <section id="page-header" class="section-block">
+      <div class="card">
+        <h3>Header &amp; Navigation</h3>
+        <p>The header is a global section with an animated pill-to-bar scroll effect, sticky behaviour, and full icon control.</p>
+        <h4>Settings Reference</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Site name</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"MAISON"</span></td><td>Text shown when no logo image is uploaded</td></tr>
+              <tr><td>Logo image</td><td><span class="badge badge-image">image</span></td><td>—</td><td>SVG or PNG with transparent background recommended</td></tr>
+              <tr><td>Logo width (desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">120px</span></td><td>60–220px</td></tr>
+              <tr><td>Logo position (desktop)</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Left</span></td><td>Left or Center. Center forces nav alignment to Left</td></tr>
+              <tr><td>Logo width (mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">80px</span></td><td>40–180px</td></tr>
+              <tr><td>Logo position (mobile)</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Left</span></td><td>Left or Center</td></tr>
+              <tr><td>Header style</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Animated</span></td><td>Animated = pill→bar on scroll; Static = always solid bar</td></tr>
+              <tr><td>Sticky header</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Keeps the header fixed at the top when scrolling</td></tr>
+              <tr><td>Main menu</td><td><span class="badge badge-link">link list</span></td><td><span class="td-default">main-menu</span></td><td>Assign the navigation link list for the header bar</td></tr>
+              <tr><td>Navigation alignment</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Center</span></td><td>Left or Center</td></tr>
+              <tr><td>Show currency selector</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Shows currency dropdown in header actions</td></tr>
+              <tr><td>Show language selector</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Shows language dropdown in header actions</td></tr>
+              <tr><td>Show search icon</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Toggles predictive search drawer trigger</td></tr>
+              <tr><td>Show account icon</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Toggles customer account link</td></tr>
+              <tr><td>Show cart icon</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Toggles AJAX cart drawer trigger with item badge</td></tr>
+              <tr><td>Header background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Applied in both pill and solid states</td></tr>
+              <tr><td>Text color (nav &amp; logo)</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Nav link and logo text color</td></tr>
+              <tr><td>Icon color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Search, cart, hamburger icon color</td></tr>
+              <tr><td>Nav underline &amp; hover color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#8b7355</span></td><td>Active/hover underline color on nav links</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <section id="page-footer" class="section-block">
+      <div class="card">
+        <h3>Footer Configuration</h3>
+        <p>The footer supports a brand column, multiple navigation link blocks, a newsletter form, social icon blocks, and trust payment icons.</p>
+        <div class="callout info">
+          <span class="callout-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+          <div class="callout-body"><p>Social icons, link lists, newsletter blocks, and payment icons are all added as <strong>blocks</strong> inside the Footer section in the Theme Customizer. You can add multiple of each type and reorder them freely.</p></div>
+        </div>
+        <h4>Footer Section Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Brand name</td><td><span class="badge badge-text">text</span></td><td>Brand name shown in the footer brand column (defaults to shop name)</td></tr>
+              <tr><td>Tagline</td><td><span class="badge badge-text">text</span></td><td>Short brand tagline below the brand name</td></tr>
+              <tr><td>Social display mode</td><td><span class="badge badge-select">select</span></td><td><code>icon</code>, <code>text</code>, <code>pill</code>, or <code>pill-icon</code></td></tr>
+              <tr><td>Show payment icons</td><td><span class="badge badge-checkbox">checkbox</span></td><td>Shows Visa, Mastercard, PayPal, Apple Pay, Google Pay SVG icons</td></tr>
+              <tr><td>Footer background</td><td><span class="badge badge-color">color</span></td><td>Background color of the entire footer</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Social Icon Block Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Platform</td><td>Choose from: Instagram, Pinterest, Twitter/X, Facebook, LinkedIn, TikTok, or Custom (paste your own SVG)</td></tr>
+              <tr><td>Link</td><td>The URL the icon links to</td></tr>
+              <tr><td>Label</td><td>Text label shown in text/pill mode</td></tr>
+              <tr><td>Icon size</td><td>SVG icon size in px</td></tr>
+              <tr><td>Icon color</td><td>Color of the icon</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── HOMEPAGE SECTIONS ── -->
+    <h2>
+      <span class="h2-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+      Homepage Sections
+    </h2>
+
+    <!-- HERO BANNER -->
+    <section id="sec-hero" class="section-block">
+      <div class="card">
+        <h3>Hero Banner</h3>
+        <p>Fullscreen slideshow with Ken Burns background zoom, crossfade transitions, stagger text animations, and scroll-triggered shrink. Supports up to 8 slides.</p>
+        <h4>Section Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Auto-advance interval</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">6s</span></td><td>Seconds between automatic slide transitions (3–12)</td></tr>
+              <tr><td>Show navigation arrows</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Shows prev/next arrow buttons</td></tr>
+              <tr><td>Show progress dots</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Shows dot pagination indicators</td></tr>
+              <tr><td>Show slide counter</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Shows "01 / 03" counter</td></tr>
+              <tr><td>Show arrows (mobile)</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">false</span></td><td>Override arrow visibility on mobile</td></tr>
+              <tr><td>Show dots (mobile)</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Override dot visibility on mobile</td></tr>
+              <tr><td>Section background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Visible behind slides during loading or when no image is set</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Per-Slide Block Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Background image</td><td><span class="badge badge-image">image</span></td><td>—</td><td>Desktop hero image. Recommended: 2000×1100px WebP</td></tr>
+              <tr><td>Mobile background image</td><td><span class="badge badge-image">image</span></td><td>—</td><td>Portrait override for mobile. Recommended: 800×1200px</td></tr>
+              <tr><td>Eyebrow label</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"New Collection"</span></td><td>Small uppercase text above the headline</td></tr>
+              <tr><td>Headline</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"Define Your Edge"</span></td><td>Large hero heading (use ⏎ to break across two lines)</td></tr>
+              <tr><td>Subheadline</td><td><span class="td-type">textarea</span></td><td>—</td><td>Short supporting sentence (~12 words max)</td></tr>
+              <tr><td>Button label</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"Shop Now"</span></td><td>Leave blank to hide the CTA button entirely</td></tr>
+              <tr><td>Button link</td><td><span class="badge badge-link">url</span></td><td>—</td><td>Where the button navigates to</td></tr>
+              <tr><td>Text alignment (desktop)</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Center</span></td><td>Left / Center / Right</td></tr>
+              <tr><td>Text alignment (mobile)</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Center</span></td><td>Left / Center / Right</td></tr>
+              <tr><td>Eyebrow color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#c8b67a</span></td><td>Color of the small eyebrow label</td></tr>
+              <tr><td>Headline color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Color of the main headline text</td></tr>
+              <tr><td>Subheadline color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffffb3</span></td><td>Color of the supporting paragraph text</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED COLLECTION -->
+    <section id="sec-featured-collection" class="section-block">
+      <div class="card">
+        <h3>Featured Collection</h3>
+        <p>Product grid pulling from a selected collection with full control over card layout, typography, swatches, and price positioning.</p>
+        <h4>Content Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Heading</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"NEW DROPS"</span></td><td>Section heading above the product grid</td></tr>
+              <tr><td>Description</td><td><span class="td-type">textarea</span></td><td>—</td><td>Short section description text</td></tr>
+              <tr><td>Collection</td><td><span class="td-type">collection</span></td><td>—</td><td>The Shopify collection to pull products from</td></tr>
+              <tr><td>Max products to show</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">3</span></td><td>2–12 products visible in the grid</td></tr>
+              <tr><td>Button label</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"View All Drops"</span></td><td>CTA button below the grid</td></tr>
+              <tr><td>Button link</td><td><span class="badge badge-link">url</span></td><td>—</td><td>Defaults to the selected collection URL</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Layout Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Full width section</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Stretches section edge-to-edge</td></tr>
+              <tr><td>Container max width</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">1400px</span></td><td>Only applies when Full Width is off (600–1600px)</td></tr>
+              <tr><td>Card elevation (desktop)</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">false</span></td><td>Adds background, shadow, and border on desktop</td></tr>
+              <tr><td>Card elevation (mobile)</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">false</span></td><td>Adds background, shadow, and border on mobile</td></tr>
+              <tr><td>Card border radius</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">24px</span></td><td>Corner radius when elevation is on (0–60px)</td></tr>
+              <tr><td>Heading alignment</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Left</span></td><td>Left / Center</td></tr>
+              <tr><td>Image fit</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Cover</span></td><td>Cover / Contain / Fill / Scale-down / None</td></tr>
+              <tr><td>Image focal point</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Center</span></td><td>Top / Center / Bottom / Left / Right</td></tr>
+              <tr><td>Show color swatches</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Shows color dot selectors on each product card</td></tr>
+              <tr><td>Max swatches to show</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">5</span></td><td>Caps how many color swatches render (1–10)</td></tr>
+              <tr><td>Price position</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Below description</span></td><td>Below desc / Next to title / Inside card overlay</td></tr>
+              <tr><td>Color swatch position</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Left</span></td><td>Left / Center / Right / Inside card</td></tr>
+              <tr><td>Show card description</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Shows product short description below title</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORY ACCORDION -->
+    <section id="sec-category-accordion" class="section-block">
+      <div class="card">
+        <h3>Category Accordion</h3>
+        <p>A horizontal set of expandable panels. On hover (desktop) or tap (mobile) each card expands to fill the available width revealing a full-height background image. Supports up to 6 category cards as blocks.</p>
+        <div class="callout tip">
+          <span class="callout-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg></span>
+          <div class="callout-body"><p>Recommended image size: <strong>1200×800px Landscape WebP</strong> per card. The accordion height is controlled by the <em>Accordion height</em> setting.</p></div>
+        </div>
+
+        <h4>Section Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Section heading</td><td><span class="badge badge-text">text</span></td><td>—</td><td>Optional heading displayed above the accordion strip</td></tr>
+              <tr><td>Accordion height</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">700px</span></td><td>Total height of the accordion container (300–1000px)</td></tr>
+              <tr><td>Full width (desktop)</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">false</span></td><td>Removes max-width constraint on desktop</td></tr>
+              <tr><td>Full width (mobile)</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">false</span></td><td>Removes max-width constraint on mobile</td></tr>
+              <tr><td>Container max width</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">1400px</span></td><td>Only applies when Full width is off (600–1600px)</td></tr>
+              <tr><td>Card elevation (desktop)</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">false</span></td><td>Adds background, shadow, border to the container on desktop</td></tr>
+              <tr><td>Card elevation (mobile)</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">false</span></td><td>Adds background, shadow, border on mobile</td></tr>
+              <tr><td>Card background color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Only visible when elevation style is on</td></tr>
+              <tr><td>Section background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Background of the entire section</td></tr>
+              <tr><td>Heading color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Color of the section heading above the accordion</td></tr>
+              <tr><td>Heading size (desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">64px</span></td><td>Section heading font size on desktop (24–100px)</td></tr>
+              <tr><td>Heading size (mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">36px</span></td><td>Section heading font size on mobile (20–72px)</td></tr>
+              <tr><td>Heading max width</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">600px</span></td><td>Max-width of the section heading before wrapping (200–1200px)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Per-Card Block Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Background image</td><td><span class="badge badge-image">image</span></td><td>—</td><td>Card background photo. Recommended: 1200×800px Landscape</td></tr>
+              <tr><td>Image fit</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Cover</span></td><td>Cover / Contain / Fill / Scale-down / None</td></tr>
+              <tr><td>Image focal point</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Center</span></td><td>Top / Center / Bottom / Left / Right</td></tr>
+              <tr><td>Title</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"Category"</span></td><td>Large text shown on the expanded card</td></tr>
+              <tr><td>Subtitle</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"Street-ready silhouettes."</span></td><td>Smaller supporting text below the title</td></tr>
+              <tr><td>Link</td><td><span class="badge badge-link">url</span></td><td>—</td><td>Where the card navigates on click</td></tr>
+              <tr><td>Title size (expanded, desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">60px</span></td><td>Font size of the title when the card is active/expanded (24–100px)</td></tr>
+              <tr><td>Subtitle size (desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">16px</span></td><td>Subtitle font size on desktop (10–24px)</td></tr>
+              <tr><td>Title size (expanded, mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">48px</span></td><td>Font size of the title when expanded on mobile (20–72px)</td></tr>
+              <tr><td>Subtitle size (mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">14px</span></td><td>Subtitle font size on mobile (10–20px)</td></tr>
+              <tr><td>Title color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Title text color on this card</td></tr>
+              <tr><td>Subtitle color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#e6e6e6</span></td><td>Subtitle text color on this card</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORY GRID -->
+    <section id="sec-category-grid" class="section-block">
+      <div class="card">
+        <h3>Category Grid</h3>
+        <p>An editorial bento-style layout that adapts automatically based on the number of cards: <strong>2 blocks</strong> = 50/50 split, <strong>3 blocks</strong> = bento stack (1 large + 2 small), <strong>4+ blocks</strong> = responsive grid. Supports up to 8 cards.</p>
+        <div class="callout info">
+          <span class="callout-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+          <div class="callout-body"><p><strong>Tip:</strong> Each card can have a separate desktop and mobile image. Desktop: <strong>1400×1400px Square</strong>, Mobile: <strong>800×1000px Portrait</strong>.</p></div>
+        </div>
+
+        <h4>Section Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Full width (desktop)</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Removes max-width — cards extend edge to edge on desktop</td></tr>
+              <tr><td>Full width (mobile)</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">false</span></td><td>Removes max-width on mobile</td></tr>
+              <tr><td>Container max width</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">1600px</span></td><td>Only applies when Full width is off (600–1800px)</td></tr>
+              <tr><td>Card height (desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">700px</span></td><td>Height of each grid card on desktop (400–1000px)</td></tr>
+              <tr><td>Card height (mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">480px</span></td><td>Height of each grid card on mobile (280–700px)</td></tr>
+              <tr><td>Section background color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#fafafa</span></td><td>Background color behind the cards</td></tr>
+              <tr><td>Card background color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Card fallback background (used when elevation is on or no image)</td></tr>
+              <tr><td>Card elevation (desktop)</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Adds shadow and border to cards on desktop</td></tr>
+              <tr><td>Card elevation (mobile)</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">false</span></td><td>Adds shadow and border to cards on mobile</td></tr>
+              <tr><td>Corner radius</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">24px</span></td><td>Rounded corner radius on cards (0–60px)</td></tr>
+              <tr><td>Padding top</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">32px</span></td><td>Space above the grid (0–160px)</td></tr>
+              <tr><td>Padding bottom</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">32px</span></td><td>Space below the grid (0–160px)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Per-Card Block Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Desktop image</td><td><span class="badge badge-image">image</span></td><td>—</td><td>Card background on desktop. Recommended: 1400×1400px Square/Landscape</td></tr>
+              <tr><td>Mobile image</td><td><span class="badge badge-image">image</span></td><td>—</td><td>Portrait override on mobile. Recommended: 800×1000px</td></tr>
+              <tr><td>Image focal point</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Center</span></td><td>Top / Center / Bottom / Left / Right</td></tr>
+              <tr><td>Image fit</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Cover</span></td><td>Cover / Contain / Fill</td></tr>
+              <tr><td>Title</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"Shop Now"</span></td><td>Main card heading text</td></tr>
+              <tr><td>Subtitle</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"New Collection"</span></td><td>Small eyebrow text above the title</td></tr>
+              <tr><td>Link</td><td><span class="badge badge-link">url</span></td><td>—</td><td>Destination URL when the card or button is clicked</td></tr>
+              <tr><td>Button title</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"Discover"</span></td><td>Label on the pill button overlay</td></tr>
+              <tr><td>Title size (desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">40px</span></td><td>Card title font size on desktop (16–80px)</td></tr>
+              <tr><td>Title size (mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">28px</span></td><td>Card title font size on mobile (16–60px)</td></tr>
+              <tr><td>Subtitle size (desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">11px</span></td><td>Eyebrow text size on desktop (8–24px)</td></tr>
+              <tr><td>Subtitle size (mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">10px</span></td><td>Eyebrow text size on mobile (8–20px)</td></tr>
+              <tr><td>Show watermark</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">false</span></td><td>Toggles the giant background text watermark overlay</td></tr>
+              <tr><td>Watermark text</td><td><span class="badge badge-text">text</span></td><td>—</td><td>Text shown as watermark (defaults to card title if blank)</td></tr>
+              <tr><td>Watermark size (desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">180px</span></td><td>Font size of the watermark on desktop (50–300px)</td></tr>
+              <tr><td>Watermark size (mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">120px</span></td><td>Font size of the watermark on mobile (40–200px)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES HOTSPOT -->
+    <section id="sec-hotspot" class="section-block">
+      <div class="card">
+        <h3>Features Hotspot</h3>
+        <p>A single large base image with up to 8 interactive pin markers. Clicking or hovering a pin reveals a tooltip describing a product feature.</p>
+        <h4>Section Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Base image</td><td><span class="badge badge-image">image</span></td><td>The main product/lifestyle image. Recommended: 1000×1000px square</td></tr>
+              <tr><td>Section heading</td><td><span class="badge badge-text">text</span></td><td>Heading text displayed above or beside the hotspot image</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Pin Block Settings (repeat for each pin)</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Horizontal position</td><td><span class="badge badge-range">range</span></td><td>Left offset as % of the image width (0–100)</td></tr>
+              <tr><td>Vertical position</td><td><span class="badge badge-range">range</span></td><td>Top offset as % of the image height (0–100)</td></tr>
+              <tr><td>Feature title</td><td><span class="badge badge-text">text</span></td><td>Bold heading inside the tooltip popup</td></tr>
+              <tr><td>Feature description</td><td><span class="td-type">textarea</span></td><td>Supporting description text in the tooltip</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT SPOTLIGHT -->
+    <section id="sec-spotlight" class="section-block">
+      <div class="card">
+        <h3>Product Spotlight</h3>
+        <p>Conversion-focused section with a large product image, promotional badge, star ratings, and a live countdown clock (powered by the <code>custom.offer_end_date</code> metafield).</p>
+        <h4>Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Product</td><td><span class="td-type">product</span></td><td>—</td><td>The featured product to spotlight</td></tr>
+              <tr><td>Section heading</td><td><span class="badge badge-text">text</span></td><td>—</td><td>Label above the spotlight card</td></tr>
+              <tr><td>Badge label</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"BEST SELLER"</span></td><td>Promotional badge text on the image</td></tr>
+              <tr><td>Show countdown</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Reads <code>custom.offer_end_date</code> metafield from the product</td></tr>
+              <tr><td>CTA button label</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"Shop Now"</span></td><td>Buy button label on the card</td></tr>
+              <tr><td>Layout direction</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Image Left</span></td><td>Controls whether image is on left or right</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMO COUNTDOWN -->
+    <section id="sec-countdown" class="section-block">
+      <div class="card">
+        <h3>Promo Countdown</h3>
+        <p>Full-width promotional banner with a large digital countdown clock and a background image or color. Ideal for sitewide sales events.</p>
+        <h4>Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>End date</td><td><span class="badge badge-text">text</span></td><td>Target date in <code>YYYY-MM-DD</code> format (e.g. <code>2026-12-31</code>)</td></tr>
+              <tr><td>Heading</td><td><span class="badge badge-text">text</span></td><td>Main promotional headline</td></tr>
+              <tr><td>Subheading</td><td><span class="badge badge-text">text</span></td><td>Supporting text or offer details</td></tr>
+              <tr><td>CTA label</td><td><span class="badge badge-text">text</span></td><td>Button text — leave blank to hide</td></tr>
+              <tr><td>CTA link</td><td><span class="badge badge-link">url</span></td><td>Button destination URL</td></tr>
+              <tr><td>Desktop image</td><td><span class="badge badge-image">image</span></td><td>Background image on desktop</td></tr>
+              <tr><td>Mobile image</td><td><span class="badge badge-image">image</span></td><td>Portrait background image for mobile</td></tr>
+              <tr><td>Background color</td><td><span class="badge badge-color">color</span></td><td>Fallback color when no image is set</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="sec-testimonials" class="section-block">
+      <div class="card">
+        <h3>Testimonials</h3>
+        <p>Multi-slide customer review slider with star ratings, reviewer avatars, and verified purchase badges. Each review is a block.</p>
+        <h4>Block Settings (per review)</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Reviewer avatar</td><td><span class="badge badge-image">image</span></td><td>Profile photo of the reviewer</td></tr>
+              <tr><td>Reviewer name</td><td><span class="badge badge-text">text</span></td><td>Display name (e.g. "Jane D.")</td></tr>
+              <tr><td>Review date</td><td><span class="badge badge-text">text</span></td><td>Date string (e.g. "April 2025")</td></tr>
+              <tr><td>Rating</td><td><span class="badge badge-range">range</span></td><td>1–5 star rating</td></tr>
+              <tr><td>Review text</td><td><span class="td-type">textarea</span></td><td>The full review body text</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <section id="sec-marquee" class="section-block">
+      <div class="card">
+        <h3>Marquee / Crossed Ticker</h3>
+        <p>An infinitely scrolling ticker bar. Maison includes two marquee sections: <strong>Marquee</strong> (single scrolling strip) and <strong>Crossed Marquee</strong> (alternating direction strips). Add text items as blocks.</p>
+        <h4>Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Speed</td><td><span class="badge badge-range">range</span></td><td>Animation duration in seconds (lower = faster)</td></tr>
+              <tr><td>Direction</td><td><span class="badge badge-select">select</span></td><td>Left-to-right or right-to-left scroll direction</td></tr>
+              <tr><td>Text</td><td><span class="badge badge-text">text</span></td><td>Content of each individual ticker item (added as blocks)</td></tr>
+              <tr><td>Separator</td><td><span class="badge badge-text">text</span></td><td>Symbol between items (e.g. <code>•</code> or <code>✦</code>)</td></tr>
+              <tr><td>Background color</td><td><span class="badge badge-color">color</span></td><td>Strip background</td></tr>
+              <tr><td>Text color</td><td><span class="badge badge-color">color</span></td><td>Ticker text color</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PRODUCT & COLLECTION ── -->
+    <h2>
+      <span class="h2-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+      Product &amp; Collection Settings
+    </h2>
+
+    <!-- PRODUCT DETAIL -->
+    <section id="settings-product" class="section-block">
+      <div class="card">
+        <h3>Product Detail Page</h3>
+        <p>Full control over the product buy box layout — gallery, variant selectors, countdown timer, trust badges, and cross-sell strip.</p>
+        <h4>Gallery Settings</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Thumbnail position</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Side</span></td><td>Side (vertical strip) or Bottom (horizontal strip)</td></tr>
+              <tr><td>Image height</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">600px</span></td><td>Main gallery image height (300–900px)</td></tr>
+              <tr><td>Image scroll behaviour</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Sticky</span></td><td>Sticky = gallery fixed while description scrolls; Scroll = scrolls with page</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Product Title</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Title color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Product title text color</td></tr>
+              <tr><td>Title size (desktop)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">44px</span></td><td>20–72px</td></tr>
+              <tr><td>Title size (mobile)</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">32px</span></td><td>16–56px</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Add to Cart &amp; Buy Now Buttons</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Add to Cart label</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"Add to cart"</span></td><td>Button label text</td></tr>
+              <tr><td>ATC background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#423a3d</span></td><td>Add to Cart button fill color</td></tr>
+              <tr><td>ATC text color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Add to Cart text color</td></tr>
+              <tr><td>ATC corner radius</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">40px</span></td><td>0–40px</td></tr>
+              <tr><td>Buy it Now label</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"Buy it now"</span></td><td>Secondary button label text</td></tr>
+              <tr><td>Buy it Now background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Secondary button fill color</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Countdown Timer Label (on product page)</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Offer label text</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">"Offer ends soon"</span></td><td>Text above the countdown clock cells</td></tr>
+              <tr><td>Number color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Color of HH:MM:SS digit cells</td></tr>
+              <tr><td>Number size</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">34px</span></td><td>18–60px</td></tr>
+              <tr><td>Card background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#ffffff</span></td><td>Background of each individual digit cell</td></tr>
+              <tr><td>Card corner radius</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">14px</span></td><td>0–30px</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Product Page Blocks</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Block Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Product Description</td><td>Richtext description override (leave blank to use the Shopify admin product description)</td></tr>
+              <tr><td>Product Feature</td><td>Label + Value pair (e.g. "Material" / "100% Organic Cotton"). Add multiple for a spec table.</td></tr>
+              <tr><td>Review</td><td>Customer review with avatar, name, date, star rating, and text</td></tr>
+              <tr><td>FAQ</td><td>Expandable Question + Answer accordion item</td></tr>
+              <tr><td>Cinematic Video</td><td>Full-bleed background video or image with text overlay inside the product page</td></tr>
+              <tr><td>Complete Your Look</td><td>Enables the CYL cross-sell strip (requires <code>custom.complete_look</code> metafield)</td></tr>
+              <tr><td>Trust Badge</td><td>Icon + label badge (Warranty, Shipping, Returns, Secure, Quality, Checkmark)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLLECTION GRID -->
+    <section id="settings-collection" class="section-block">
+      <div class="card">
+        <h3>Collection Grid</h3>
+        <p>The main product listing page. Features a filter sidebar, sort dropdown, and layout toggle (grid / list).</p>
+        <h4>Settings Reference</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Default grid layout</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">3-column grid</span></td><td>3-column grid / 2-column grid / List</td></tr>
+              <tr><td>Products per page</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">24</span></td><td>8–48 products before pagination</td></tr>
+              <tr><td>Default sort</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Featured</span></td><td>Featured / Price Low→High / Price High→Low / Newest</td></tr>
+              <tr><td>Page background color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#f5f0eb</span></td><td>Background color of the collection page</td></tr>
+              <tr><td>Show star ratings</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Shows 5-star rating decoration on cards</td></tr>
+              <tr><td>Show product description</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">false</span></td><td>Shows product description excerpt on card</td></tr>
+              <tr><td>Price position</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Below title/desc</span></td><td>Below desc / Next to title / Below title / Overlay bubble</td></tr>
+              <tr><td>Show color swatches</td><td><span class="badge badge-checkbox">checkbox</span></td><td><span class="td-default">true</span></td><td>Renders color swatch dots on product cards</td></tr>
+              <tr><td>Max swatches to show</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">5</span></td><td>Caps the number of swatches per card (1–10)</td></tr>
+              <tr><td>Color swatch position</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Left</span></td><td>Left / Center / Right</td></tr>
+              <tr><td>Card title size</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">20px</span></td><td>Desktop card title font size (12–28px)</td></tr>
+              <tr><td>Default mobile layout</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">2-column</span></td><td>1-column or 2-column on mobile</td></tr>
+              <tr><td>Mobile price position</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Below title</span></td><td>Below title / Next to title / Below desc</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK VIEW -->
+    <section id="settings-quickview" class="section-block">
+      <div class="card">
+        <h3>Quick View Modal</h3>
+        <p>An AJAX popup triggered from product card hover buttons. Shows a hover-zoom gallery, variant selectors, quantity stepper, Add to Cart, Buy Now, and trust badges marquee.</p>
+        <h4>Settings Reference</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Setting</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>Thumbnail view mode</td><td><span class="badge badge-select">select</span></td><td><span class="td-default">Marquee Loop</span></td><td>Marquee Loop = auto-scrolling thumbnails; Fixed Slider = arrows-controlled slider</td></tr>
+              <tr><td>Modal background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#faf9f7</span></td><td>Background color of the modal panel</td></tr>
+              <tr><td>Primary text color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>Product title and price text</td></tr>
+              <tr><td>Secondary text color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#8b7355</span></td><td>Brand/vendor label text color</td></tr>
+              <tr><td>Add to Cart background</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#1a1a1a</span></td><td>ATC button fill color in the modal</td></tr>
+              <tr><td>Add to Cart text</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#faf9f7</span></td><td>ATC button label text color</td></tr>
+              <tr><td>Trust badges text</td><td><span class="badge badge-text">text</span></td><td><span class="td-default">30-Day Returns, 2-Year Warranty…</span></td><td>Comma-separated list of trust badge labels</td></tr>
+              <tr><td>Trust marquee text color</td><td><span class="badge badge-color">color</span></td><td><span class="td-default">#6b6b6b</span></td><td>Color of the scrolling trust text</td></tr>
+              <tr><td>Trust marquee speed</td><td><span class="badge badge-range">range</span></td><td><span class="td-default">24s</span></td><td>Scroll animation duration — 10s (fast) to 60s (slow)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── REFERENCE ── -->
+    <h2>
+      <span class="h2-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span>
+      Reference
+    </h2>
+
+    <!-- IMAGE SIZE GUIDE -->
+    <section id="ref-images" class="section-block">
+      <h3>Image Size Guide</h3>
+      <p>Use these recommended dimensions to keep pages fast and avoid layout shifts.</p>
+      <div class="img-size-card"><span class="img-size-name">Hero Slideshow</span><span class="img-size-dim">2000×1100px (desktop)<br>800×1200px (mobile)</span><span class="img-size-fmt">WebP recommended</span></div>
+      <div class="img-size-card"><span class="img-size-name">Category Accordion</span><span class="img-size-dim">800×1400px (portrait)</span><span class="img-size-fmt">WebP recommended</span></div>
+      <div class="img-size-card"><span class="img-size-name">Category Grid / Bento</span><span class="img-size-dim">1200×700px</span><span class="img-size-fmt">WebP recommended</span></div>
+      <div class="img-size-card"><span class="img-size-name">Product Cards</span><span class="img-size-dim">800×1066px (3:4 portrait)</span><span class="img-size-fmt">WebP or JPG</span></div>
+      <div class="img-size-card"><span class="img-size-name">Hotspot Base Image</span><span class="img-size-dim">1000×1000px (square)</span><span class="img-size-fmt">WebP recommended</span></div>
+      <div class="img-size-card"><span class="img-size-name">About Page Header</span><span class="img-size-dim">1600×600px</span><span class="img-size-fmt">WebP recommended</span></div>
+      <div class="img-size-card"><span class="img-size-name">Brand Logos / Icons</span><span class="img-size-dim">120×40px</span><span class="img-size-fmt">SVG preferred</span></div>
+    </section>
+
+    <!-- SEO & PERFORMANCE -->
+    <section id="ref-seo" class="section-block">
+      <h3>SEO &amp; Performance</h3>
+      <ul>
+        <li><strong>Lazy loading:</strong> All non-hero images use <code>loading="lazy"</code> by default.</li>
+        <li><strong>LCP optimization:</strong> The first hero slide uses <code>fetchpriority="high"</code> to minimize Largest Contentful Paint.</li>
+        <li><strong>No external assets:</strong> Payment SVGs are locally hosted on Shopify CDN — no remote DNS lookups.</li>
+        <li><strong>Zero lint errors:</strong> 75 files inspected with 0 offenses by <code>shopify theme check</code>.</li>
+        <li><strong>Semantic HTML:</strong> Single <code>&lt;h1&gt;</code> per page, correct landmark roles, ARIA labels on all interactive elements.</li>
+        <li><strong>Image dimensions:</strong> All <code>&lt;img&gt;</code> tags include explicit <code>width</code> and <code>height</code> attributes to eliminate CLS.</li>
+      </ul>
+    </section>
+
+    <!-- FAQ -->
+    <section id="ref-faq" class="section-block">
+      <h3>FAQ</h3>
+      <div class="card">
+        <h4 style="text-transform:none;font-size:0.95rem;color:var(--text);letter-spacing:0;margin-top:0;">How do I reorder homepage sections?</h4>
+        <p>Online Store → Themes → Customize → drag sections in the left panel to reorder them.</p>
+      </div>
+      <div class="card">
+        <h4 style="text-transform:none;font-size:0.95rem;color:var(--text);letter-spacing:0;margin-top:0;">How do I set the countdown timer date?</h4>
+        <p>In <strong>Product Spotlight</strong> or <strong>Promo Countdown</strong> section settings, enter the date in <code>YYYY-MM-DD</code> format (e.g. <code>2026-12-31</code>). For per-product timers, set the <code>custom.offer_end_date</code> metafield on the product instead.</p>
+      </div>
+      <div class="card">
+        <h4 style="text-transform:none;font-size:0.95rem;color:var(--text);letter-spacing:0;margin-top:0;">Why do I see a missing translation warning?</h4>
+        <p>All English translation keys are populated in <code>locales/en.default.json</code>. If you are translating to another language, copy the same keys into your target locale file (e.g. <code>fr.json</code>) and replace the values.</p>
+      </div>
+      <div class="card">
+        <h4 style="text-transform:none;font-size:0.95rem;color:var(--text);letter-spacing:0;margin-top:0;">The Complete Your Look section is not showing — why?</h4>
+        <p>Two conditions must be met: (1) the <code>complete_your_look</code> block must be added inside the Product section in the Theme Customizer, and (2) the current product must have the <code>custom.complete_look</code> metafield populated with at least one product.</p>
+      </div>
+      <div class="card">
+        <h4 style="text-transform:none;font-size:0.95rem;color:var(--text);letter-spacing:0;margin-top:0;">Can I add more slides to the Hero Banner?</h4>
+        <p>Yes — the Hero Banner supports up to <strong>8 slides</strong>. Add each as a new <strong>Slide</strong> block inside the Hero Banner section in the Customizer.</p>
+      </div>
+    </section>
+
+    <footer class="doc-footer">
+      <p>&copy; 2026 Maison Studio &mdash; Shopify Online Store 2.0 &mdash; All rights reserved.</p>
+    </footer>
+
+  </div>
+</main>
+
+<script>
+  function setActive(el) {
+    document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function searchDocs(q) {
+    const lower = q.toLowerCase().trim();
+    document.querySelectorAll('.sb-link').forEach(link => {
+      link.style.display = (!lower || link.textContent.toLowerCase().includes(lower)) ? '' : 'none';
+    });
+    document.querySelectorAll('.sb-section-title').forEach(t => t.style.display = '');
+  }
+
+  // Intersection Observer for active sidebar link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.sb-link[href]');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
